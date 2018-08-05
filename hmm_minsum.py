@@ -19,8 +19,11 @@ class HMM(object):
 
         return phi_x
 
-    def __trace_point(self, trans, vec):
+    def __trace_point(self, trans, vec, mode = 1):
         mat = np.multiply(trans, vec)
+        if mode == 2:
+            return np.max(mat, axis = 1)
+
         return np.argmax(mat, axis = 1)
 
     def forward_message(self, from_state, to_state):
@@ -37,13 +40,17 @@ class HMM(object):
         elif to_state == 1 and from_state == 0:
             st *= self.trans.dot(self.joint_dist[0])
             self.trace_max[0] = self.__trace_point(self.trans, self.joint_dist[0])
-
+            
             print("M1->2 = ",st / np.sum(st))
         else:
-            st = self.trans.dot(self.joint_dist[from_state] * self.forward_message(from_state - 1, from_state))
-            self.trace_max[from_state] = self.__trace_point(self.trans, self.joint_dist[from_state] * self.forward_message(from_state - 1, from_state))
-            print("M%d->%d = "%(from_state+1, to_state+1),st / np.sum(st))
+            other = self.forward_message(from_state - 1, from_state)
+            gamma = self.joint_dist[from_state] * other
+            st = self.trans.dot(gamma)
+            # in max-product algorithms, message func is a max-value func from last iter . its different from sum-product algo!
+            other2 = self.__trace_point(self.trans, self.joint_dist[from_state - 1], mode = 2)
+            self.trace_max[from_state] = self.__trace_point(self.trans, self.joint_dist[from_state] * other2)
 
+            print("M%d->%d = "%(from_state+1, to_state+1),st / np.sum(st))
         return st / np.sum(st)
         
     def backward_message(self, from_state, to_state):
@@ -109,9 +116,11 @@ print(trans_prob,trans_prob.T)
 def main():
     h = HMM(trans_prob, x_prior_prob, np.array(joint_observer_prob, dtype = np.float), [0,0,1,1,1])
     h.computer_max_prob()
-    print(h.map_x)
-    print("------")
-    print(h.minsum())
+    print("....")
+    print("MAP ESMATE with 3 differnt algorithms:")
+    print("ESMATE with max-product :", h.trace_max)
+    print("ESMATE with max-marginal :", h.map_x)
+    print("ESMATE with min-sum :", h.minsum())
 
 """
 code for Week 6: Special Case - Marginalization in Hidden Markov Models
@@ -138,4 +147,4 @@ def robot_loc():
     
 if __name__ == '__main__':
     main()
-    robot_loc()
+    #robot_loc()
