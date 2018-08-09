@@ -7,7 +7,7 @@ from flip_coin import sample_from_finite_probability_space
 theta = np.linspace(0.001, 0.999, num=200)
 
 
-def gen_observeration_data(prob, num=20):
+def gen_observeration_data(prob, num=500):
     return [sample_from_finite_probability_space({'heads': prob, 'tails': 1 - prob}) for i in range(num)]
 
 
@@ -29,7 +29,7 @@ def main():
 
     plt.legend(('prob', "Origin:%f" % prob_r, "ML:%f" % peak),
                loc='best')
-    plt.title("max likelihood inference with %d observed object" % len(theta))
+    plt.title("max likelihood inference")
     plt.xscale('linear')
     plt.grid(True)
     plt.yscale('symlog', linthreshy=0.000001)
