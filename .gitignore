@@ -1,3 +1,6 @@
 .DS_Store
 .vscode/settings.json
 .vscode/tags
+*.pyc
+.vscode/.ropeproject/config.py
+.vscode/.ropeproject/objectdb
