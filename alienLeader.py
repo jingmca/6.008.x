@@ -47,7 +47,22 @@ def main():
     ax.plot(q_axis, y0_axis, 'r+', label='red')
     ax.plot(q_axis, y1_axis, 'g--', label='green')
     ax.plot(q_axis, y2_axis, 'b--', label='blue')
- 
+    ax.annotate('q = %.3f'%q_axis[np.argmax(y0_axis)], xy=(q_axis[np.argmax(y0_axis)], np.max(y0_axis)), xytext=(0.5, -11),
+            arrowprops=dict(facecolor='black', shrink=0.001),
+            horizontalalignment='right',
+            verticalalignment='bottom',
+            )
+    ax.annotate('q = %.3f'%q_axis[np.argmax(y1_axis)], xy=(q_axis[np.argmax(y1_axis)], np.max(y1_axis)), xytext=(1, -5),
+            arrowprops=dict(facecolor='black', shrink=0.001),
+            horizontalalignment='right',
+            verticalalignment='top',
+            )
+    # ax.axvline(x=q_axis[np.argmax(y0_axis)],color='#d62728',alpha = 0.5)
+    # ax.axvline(x=q_axis[np.argmax(y1_axis)],color='#2ca02c',alpha = 0.5)
+    ax.axvspan(0.5, 1, facecolor='0.5', alpha=0.3)
+
+
+    ax.set_ylim(-30, -5)
 
     plt.show()
 
