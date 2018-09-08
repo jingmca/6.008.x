@@ -50,3 +50,22 @@ MAP ESMATE with 3 differnt algorithms:
 
 ('ESMATE with min-sum :', array([0., 0., 1., 1., 1.]))  
 
+连续扔两枚硬币,一枚均匀,一枚反面重
+emission_prob: {'biased': {'head': 0.25, 'tail': 0.75}, 'fair': {'head': 0.5, 'tail': 0.5}}
+states: ('fair', 'biased')
+start: {'biased': 0.5, 'fair': 0.5}
+transition_prob: {'biased': {'biased': 0.75, 'fair': 0.25}, 'fair': {'biased': 0.25, 'fair': 0.75}}
+output: <listreverseiterator object at 0x10fec04d0>
+observ: ('head', 'head', 'tail', 'tail', 'tail')
+MAP Estination:
+fair->fair->biased->biased->biased
+===========================================
+医生连续三天给一个人看病,根据现象判断三天的病情
+emission_prob: {'Healthy': {'cold': 0.4, 'dizzy': 0.1, 'normal': 0.5}, 'Fever': {'cold': 0.3, 'dizzy': 0.6, 'normal': 0.1}}
+states: ('Healthy', 'Fever')
+start: {'Healthy': 0.6, 'Fever': 0.4}
+transition_prob: {'Healthy': {'Healthy': 0.7, 'Fever': 0.25}, 'Fever': {'Healthy': 0.4, 'Fever': 0.6}}
+output: <listreverseiterator object at 0x10f37cf90>
+observ: ('normal', 'cold', 'dizzy')
+MAP Estination:
+Healthy->Healthy->Fever
